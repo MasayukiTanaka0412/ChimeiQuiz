@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="日本地名なぞなぞクイズ。50問からランダムで10問出題、入力ゆれに強い判定付きの静的Webアプリです。">
+  <title>日本地名なぞなぞクイズ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="card fade-in" id="screen" aria-live="polite"></section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <template id="start-template">
+    <header class="stack-lg">
+      <h1>日本地名なぞなぞクイズ</h1>
+      <p class="lead">50問の中からランダムで10問出題されます。<br>地名を思い浮かべて入力してください。</p>
+      <ul class="rule-list" aria-label="ルール">
+        <li>1問ずつ出題されます</li>
+        <li>回答後に正解を確認できます</li>
+        <li>入力ゆれや軽いタイプミスも一部許容します</li>
+      </ul>
+      <button type="button" id="start-btn" class="btn btn-primary btn-large">スタート</button>
+    </header>
+  </template>
+
+  <template id="question-template">
+    <section class="stack-md">
+      <div class="progress-row" aria-label="進捗情報">
+        <p id="progress-text" class="chip"></p>
+        <p id="score-text" class="chip"></p>
+      </div>
+
+      <article class="question-card">
+        <h2 class="visually-hidden">問題</h2>
+        <p id="question-text" class="question-text"></p>
+      </article>
+
+      <div class="stack-sm">
+        <label for="answer-input" class="input-label">あなたの回答</label>
+        <input id="answer-input" class="answer-input" type="text" inputmode="text" autocomplete="off" placeholder="地名を入力してください">
+      </div>
+
+      <div class="action-row">
+        <button type="button" id="submit-btn" class="btn btn-primary">回答する</button>
+        <button type="button" id="next-btn" class="btn btn-secondary" hidden></button>
+      </div>
+
+      <section id="feedback" class="feedback" aria-live="polite"></section>
+    </section>
+  </template>
+
+  <template id="result-template">
+    <section class="stack-lg">
+      <header class="stack-sm">
+        <h2>結果発表</h2>
+        <p id="result-summary" class="result-summary"></p>
+        <p id="result-rate" class="result-rate"></p>
+        <p id="result-message" class="result-message"></p>
+      </header>
+
+      <section class="stack-sm" aria-label="シェア">
+        <h3>シェア</h3>
+        <div class="share-grid">
+          <button type="button" id="share-x" class="btn btn-share">Xでシェア</button>
+          <button type="button" id="share-line" class="btn btn-share">LINEでシェア</button>
+          <button type="button" id="share-facebook" class="btn btn-share">Facebookでシェア</button>
+          <button type="button" id="copy-result" class="btn btn-share">結果テキストをコピー</button>
+          <button type="button" id="native-share" class="btn btn-share" hidden>共有する</button>
+        </div>
+      </section>
+
+      <section class="stack-sm">
+        <h3>振り返り一覧</h3>
+        <div class="review-table-wrap">
+          <table class="review-table">
+            <thead>
+              <tr>
+                <th>問題</th>
+                <th>問題文</th>
+                <th>あなたの回答</th>
+                <th>正解</th>
+                <th>判定</th>
+              </tr>
+            </thead>
+            <tbody id="review-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <button type="button" id="restart-btn" class="btn btn-primary btn-large">もう一度遊ぶ</button>
+    </section>
+  </template>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
